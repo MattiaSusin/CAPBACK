@@ -37,5 +37,9 @@ public class Prenotazione {
     public void getNumeroCoperti(int i) {
     }
 
+    @Getter
+    @Setter
+    private Cliente cliente;
+
     // COSTUTTORI
 }

@@ -1,16 +1,19 @@
 package mattia.susin.CAPBACK.controllers;
 
 import mattia.susin.CAPBACK.entities.Prenotazione;
+import mattia.susin.CAPBACK.exceptions.BadRequestException;
 import mattia.susin.CAPBACK.payloads.PrenotazioneDTO;
 import mattia.susin.CAPBACK.payloads.PrenotazioneRespDTO;
 import mattia.susin.CAPBACK.services.PrenotazioniService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/prenotazioni")
@@ -33,8 +36,21 @@ public class PrenotazioniController {
     }
 
     // 2 --> POST
+    @PostMapping("/prenotazioni/crea")
+    @PreAuthorize("hasAnyAuthority('UTENTE','ADMIN')")
+    @ResponseStatus(HttpStatus.CREATED)
+    public PrenotazioneRespDTO save(@RequestBody @Validated PrenotazioneDTO body, BindingResult validationResult) {
 
-    
+        if (validationResult.hasErrors()) {
+            String messages = validationResult.getAllErrors().stream()
+                    .map(objectError -> objectError.getDefaultMessage())
+                    .collect(Collectors.joining(". "));
+
+            throw new BadRequestException("Ci sono stati errori nel payload. " + messages);
+        } else {
+            return new PrenotazioneRespDTO(this.prenotazioniService.savePrenotazione(body).getId());
+        }
+    }
 
     // 3 --> GET ID
     @GetMapping("/{prenotazioneId}")

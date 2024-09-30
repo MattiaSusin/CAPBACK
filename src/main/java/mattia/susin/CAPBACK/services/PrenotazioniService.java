@@ -1,10 +1,12 @@
 package mattia.susin.CAPBACK.services;
 
+import mattia.susin.CAPBACK.entities.Cliente;
 import mattia.susin.CAPBACK.entities.Prenotazione;
 import mattia.susin.CAPBACK.exceptions.BadRequestException;
 import mattia.susin.CAPBACK.exceptions.NotFoundException;
 import mattia.susin.CAPBACK.payloads.PrenotazioneDTO;
 import mattia.susin.CAPBACK.payloads.PrenotazioneRespDTO;
+import mattia.susin.CAPBACK.repositories.ClientiRepository;
 import mattia.susin.CAPBACK.repositories.PrenotazioneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +23,10 @@ public class PrenotazioniService {
     // IMPORTI
     @Autowired
     private PrenotazioneRepository prenotazioneRepository;
+
+    @Autowired
+    private ClientiRepository clientiRepository;
+
 
     // METODI
 
@@ -58,6 +64,18 @@ public class PrenotazioniService {
         found.setOrario(Double.parseDouble(newPrenotazioneData.orario()));
         found.getNumeroCoperti(newPrenotazioneData.numeroCoperti());
         return new PrenotazioneRespDTO(this.prenotazioneRepository.save(found).getId());
+    }
+
+    // 6 --> SAVE
+
+    public Prenotazione savePrenotazione(PrenotazioneDTO body){
+        Prenotazione newPrenotazione = new Prenotazione();
+
+        newPrenotazione.setOrario(Double.parseDouble(body.orario()));
+        newPrenotazione.setData(body.data());
+        newPrenotazione.getNumeroCoperti(body.numeroCoperti());
+
+        return this.prenotazioneRepository.save(newPrenotazione);
     }
 
 }
