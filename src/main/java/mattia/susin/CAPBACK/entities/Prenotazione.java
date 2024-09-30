@@ -32,14 +32,12 @@ public class Prenotazione {
 
     @ManyToOne()
     @JoinColumn(name = "cliente_id")
-    private Cliente clienteId;
+    private Cliente cliente;
+
+
 
     public void getNumeroCoperti(int i) {
     }
-
-    @Getter
-    @Setter
-    private Cliente cliente;
 
     // COSTUTTORI
 }

@@ -1,5 +1,6 @@
 package mattia.susin.CAPBACK.entities;
 
+
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,8 +36,7 @@ public class Cliente {
     private int telefono;
 
     @OneToMany()
-    @JoinColumn(name = "prenotazione_id")
-    private List<Prenotazione> prenotazioneId;
+    private List<Prenotazione> prenotazione;
 
     // COSTRUTTORI
 

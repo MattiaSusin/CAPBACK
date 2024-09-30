@@ -1,6 +1,6 @@
 package mattia.susin.CAPBACK.security;
 
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -15,49 +15,43 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.List;
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class Config {
 
-    @Value("${server.port.front}")
-    private String frontendPort;
+	@Bean
+	SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
-    @Value("${server.port}")
-    private String backendPort;
+		httpSecurity.formLogin(http -> http.disable());
+		httpSecurity.csrf(http -> http.disable());
 
-    @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+		httpSecurity.sessionManagement(http -> http.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-        httpSecurity.formLogin(http -> http.disable());
-        httpSecurity.csrf(http -> http.disable());
-        httpSecurity.sessionManagement(http -> http.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        httpSecurity.authorizeHttpRequests(http -> http.requestMatchers("/**").permitAll());
-        httpSecurity.cors(Customizer.withDefaults()); // OBBLIGATORIA QUESTA IMPOSTAZIONE SE VOGLIAMO CHE PER I CORS VENGA UTILIZZATO IL BEAN SOTTOSTANTE
+		httpSecurity.authorizeHttpRequests(http -> http.requestMatchers("/**").permitAll());
 
-        httpSecurity.cors(Customizer.withDefaults());
-        return httpSecurity.build();
-    }
-
-    @Bean
-    PasswordEncoder getBCrypt() {
-        return new BCryptPasswordEncoder(11);
-    }
-
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(this.frontendPort, this.backendPort));
-
-        configuration.setAllowedMethods(List.of("*"));
-        configuration.setAllowedHeaders(List.of("*"));
+		httpSecurity.cors(Customizer.withDefaults());
 
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+		return httpSecurity.build();
+	}
 
-}
+	@Bean
+	PasswordEncoder getBCrypt() {
+		return new BCryptPasswordEncoder(11);
+
+	}
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3002"));
+
+		configuration.setAllowedMethods(Arrays.asList(""));
+		configuration.setAllowedHeaders(Arrays.asList(""));
+
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
+	}}

@@ -28,7 +28,6 @@ public class PrenotazioniController {
     // 1 --> GET ALL
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('ADMIN','UTENTE')")
     public Page<Prenotazione> findAllPrenotazione(@RequestParam(defaultValue = "0") int page,
                                              @RequestParam(defaultValue = "10") int size,
                                              @RequestParam(defaultValue = "id") String sortBy) {
