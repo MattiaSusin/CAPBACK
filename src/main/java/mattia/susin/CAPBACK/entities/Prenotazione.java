@@ -24,7 +24,7 @@ public class Prenotazione {
     @Column(name = "numero_Coperti")
     private int numeroCoperti;
 
-    @Column(name = "email")
+    @Column(name = "orario")
     private double orario;
 
     @Column(name = "coperti_Disponibili")
@@ -33,6 +33,9 @@ public class Prenotazione {
     @ManyToOne()
     @JoinColumn(name = "cliente_id")
     private Cliente clienteId;
+
+    public void getNumeroCoperti(int i) {
+    }
 
     // COSTUTTORI
 }
