@@ -1,10 +1,7 @@
 package mattia.susin.CAPBACK.entities;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -12,6 +9,7 @@ import java.util.UUID;
 @Table(name = "admins")
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 public class Admin {
     @Id
@@ -27,14 +25,4 @@ public class Admin {
 
     // COSTRUTTORI
 
-    // TO STRING
-
-    @Override
-    public String toString() {
-        return "Admin{" +
-                "id=" + id +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
 }
