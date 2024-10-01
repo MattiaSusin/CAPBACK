@@ -5,13 +5,14 @@ import mattia.susin.CAPBACK.exceptions.BadRequestException;
 import mattia.susin.CAPBACK.exceptions.NotFoundException;
 import mattia.susin.CAPBACK.payloads.prenotazione.PrenotazioneDTO;
 import mattia.susin.CAPBACK.payloads.prenotazione.PrenotazioneRespDTO;
-import mattia.susin.CAPBACK.repositories.ClientiRepository;
+import mattia.susin.CAPBACK.tools.MailgunSender;
 import mattia.susin.CAPBACK.repositories.PrenotazioneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -24,8 +25,10 @@ public class PrenotazioniService {
     private PrenotazioneRepository prenotazioneRepository;
 
     @Autowired
-    private ClientiRepository clientiRepository;
+    private PasswordEncoder bcrypt;
 
+    @Autowired
+    private MailgunSender mailgunSender;
 
     // METODI
 
@@ -37,8 +40,30 @@ public class PrenotazioniService {
         return this.prenotazioneRepository.findAll(pageable);
     }
 
-    // 2 --> POST
+    // 2 --> POST/SAVE
 
+    public Prenotazione save(PrenotazioneDTO body) {
+        // 1. Verifico che l'email non sia già stata utilizzata
+        this.prenotazioneRepository.findByEmail(body.email()).ifPresent(
+                // 1.1 Se lo è triggero un errore (400 Bad Request)
+                user -> {
+                    throw new BadRequestException("L'email " + body.email() + " è già in uso!");
+                }
+        );
+
+        // 2. Se tutto è ok procedo con l'aggiungere campi 'server-generated' (nel nostro caso avatarURL)
+
+        Prenotazione newPrenotazione = new Prenotazione(body.nome(),body.cognome(),body.email(),body.telefono(),
+                body.data(),body.numeroCoperti(),body.orario(),"https://ui-avatars.com/api/?name=" + body.nome() + "+" + body.cognome());
+
+        // 3. Salvo lo User
+        Prenotazione savedPrenotazione = this.prenotazioneRepository.save(newPrenotazione);
+
+        // 4. Invio email conferma registrazione
+        mailgunSender.sendRegistrationEmailPrenotazione(savedPrenotazione);
+
+        return savedPrenotazione;
+    }
 
     // 3 --> GET ID
     public Prenotazione findIdPrenotazione(UUID clienteId) {
@@ -75,6 +100,12 @@ public class PrenotazioniService {
         newPrenotazione.getNumeroCoperti(body.numeroCoperti());
 
         return this.prenotazioneRepository.save(newPrenotazione);
+    }
+
+    // 7 --> EMAIL
+
+    public Prenotazione findByEmail(String email) {
+        return prenotazioneRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("L'utente con l'email " + email + " non è stato trovato!"));
     }
 
 }

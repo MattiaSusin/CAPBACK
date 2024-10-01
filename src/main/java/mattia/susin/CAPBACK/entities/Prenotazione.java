@@ -28,7 +28,7 @@ public class Prenotazione {
     private String email;
 
     @Column(name = "numero_telefono")
-    private int telefono;
+    private String telefono;
 
     @Column(name = "data")
     private LocalDate data;
@@ -42,9 +42,22 @@ public class Prenotazione {
     @Column(name = "coperti_Disponibili")
     private int copertiDisponibili;
 
+    @Column(name = "avatar")
+    private String avatarURL;
+
     @ManyToOne()
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
+
+    public Prenotazione(String nome, String cognome, String email, String telefono, LocalDate data, int numeroCoperti, String orario, String avatarURL) {
+        this.nome = nome;
+        this.cognome = cognome;
+        this.email = email;
+        this.telefono = String.valueOf(Integer.parseInt(telefono));
+        this.data = data;
+        this.numeroCoperti = numeroCoperti;
+        this.orario = Double.parseDouble(orario);
+    }
 
 
     public void getNumeroCoperti(int i) {

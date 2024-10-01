@@ -74,4 +74,7 @@ public class PrenotazioniController {
         return this.prenotazioniService.findIdAndUpdatePrenotazione(clienteId, body);
     }
 
+    // 7 --> EMAIL --> prenotazioneRepository
+
+
 }
