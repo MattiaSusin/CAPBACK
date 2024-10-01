@@ -17,11 +17,20 @@ public class Admin {
     @Setter(AccessLevel.NONE)
     private UUID id;
 
-    @Column(name = "password")
-    private String password;
+    @Column(name = "nome")
+    private String nome;
+
+    @Column(name = "cognome")
+    private String cognome;
 
     @Column(name = "email")
     private String email;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "avatar")
+    private String avatarURL;
 
     // COSTRUTTORI
 

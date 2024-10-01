@@ -1,13 +1,16 @@
 package mattia.susin.CAPBACK.services;
 
 import mattia.susin.CAPBACK.entities.Admin;
+import mattia.susin.CAPBACK.exceptions.BadRequestException;
 import mattia.susin.CAPBACK.exceptions.NotFoundException;
+import mattia.susin.CAPBACK.payloads.AdminDTO;
 import mattia.susin.CAPBACK.repositories.AdminsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -19,7 +22,13 @@ public class AdminsService {
     @Autowired
     private AdminsRepository adminsRepository;
 
+    @Autowired
+    private PasswordEncoder bcrypt;
+
+    @Autowired
+
     // METODI
+
 
     // 1 --> GET ALL
 
@@ -30,13 +39,39 @@ public class AdminsService {
         return this.adminsRepository.findAll(pageable);
     }
 
+
     // 2 --> POST --> In AuthServices
+
 
     // 3 --> GET ID
     public Admin findByIdAdmin(UUID adminId) {
         return this.adminsRepository.findById(adminId).orElseThrow(() -> new NotFoundException(adminId));
     }
+
     // 4 --> PUT
+
+    public Admin findByIdAndUpdateAdmin(UUID adminId, Admin newAdminData){
+
+        // 1 -->  Si controlla se la mail inserita è già in uso
+        this.adminsRepository.findByEmail(newAdminData.getEmail()).ifPresent(
+                // 1.1 --> Se lo è mando un errore
+                admin -> {
+                    throw new BadRequestException("l'email " + newAdminData.getEmail() + " è già in uso");
+                }
+        );
+        // 2 --> Mando i campi per il cambiamento dei dati
+
+        Admin found = this.findByIdAdmin(adminId);
+
+        found.setNome(newAdminData.getNome());
+        found.setCognome(newAdminData.getCognome());
+        found.setEmail(newAdminData.getEmail());
+        found.setPassword(newAdminData.getPassword());
+        found.setAvatarURL("https://ui-avatars.com/api/?name=" + newAdminData.getNome() + "+" + newAdminData.getCognome());
+
+        return this.adminsRepository.save(found);
+
+    }
 
     // 5 --> DELETE
     public void findByIdAndDeleteAdmin(UUID userId) {
@@ -49,9 +84,17 @@ public class AdminsService {
     }
     // 7 --> SAVE
 
-   /* public Admin saveAdmin{
+    public Admin saveAdmin(AdminDTO body){
         // 1 --> Verifichiamo che la mail non sia stata utilizzata
-        this.adminsRepository.f
-    }*/
+        this.adminsRepository.findByEmail(body.email()).ifPresent(
+                user ->{
+                    throw new BadRequestException("L'email " + body.email() " l'email è già in uso");
+                }
+        );
+
+        // 2 --> Se va tutto bene aggiungo i campi 'server-generated' ovvero l'avatarUrl
+        Admin newUser = new Admin(body.nome(), body.cognome(), body.email(), bcrypt.encode(body.password()),
+                "https://ui-avatars.com/api/?name=" + body.nome() + "+" + body.cognome());
+    }
 }
 

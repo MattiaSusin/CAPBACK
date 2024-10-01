@@ -2,7 +2,7 @@ package mattia.susin.CAPBACK.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import mattia.susin.CAPBACK.entities.Cliente;
+import mattia.susin.CAPBACK.entities.Admin;
 import mattia.susin.CAPBACK.exceptions.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,7 @@ public class JWTTools {
     @Value("${jwt.secret}")
     private String secret;
 
-    public String createToken(Cliente cliente) {
+    public String createToken(Admin cliente) {
         return Jwts.builder()
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7))

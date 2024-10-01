@@ -1,0 +1,61 @@
+package mattia.susin.CAPBACK.controllers;
+
+import mattia.susin.CAPBACK.exceptions.BadRequestException;
+import mattia.susin.CAPBACK.payloads.AdminDTO;
+import mattia.susin.CAPBACK.payloads.AdminLoginDTO;
+import mattia.susin.CAPBACK.payloads.AdminLoginRespDTO;
+import mattia.susin.CAPBACK.payloads.AdminRespDTO;
+import mattia.susin.CAPBACK.services.AdminsService;
+import mattia.susin.CAPBACK.services.AuthServices;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.stream.Collectors;
+
+@RestController
+@RequestMapping("/auth")
+public class AuthControllers {
+
+    // IMPORTI
+
+    @Autowired
+    private AdminsService adminsService;
+
+    private AuthServices authServices;
+
+    // METODI
+
+    // 1 --> LOGIN
+
+    @PostMapping("/login")
+    public AdminLoginRespDTO login(@RequestBody AdminLoginDTO payload) {
+        return new AdminLoginRespDTO(this.authServices.checkCredentialsAndGenerateToken(payload));
+    }
+
+    // 2 --> SAVE/REGISTER
+
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
+    public AdminRespDTO saveAdmin(@RequestBody @Validated AdminDTO body, BindingResult validationResult) {
+        // @Validated serve per 'attivare' le regole di validazione descritte nel DTO
+        // BindingResult mi permette di capire se ci sono stati errori e quali errori ci sono stati
+
+        if (validationResult.hasErrors()) {
+            // Se ci sono stati errori lanciamo un'eccezione custom
+            String messages = validationResult.getAllErrors().stream()
+                    .map(objectError -> objectError.getDefaultMessage())
+                    .collect(Collectors.joining(". "));
+
+            throw new BadRequestException("Ci sono stati errori nel payload. " + messages);
+        } else {
+            // Se non ci sono stati salviamo l'utente
+
+            return new AdminRespDTO(this.adminsService.saveAdmin(body).getId());
+        }
+
+    }
+
+}
