@@ -18,6 +18,18 @@ public class Prenotazione {
     @Setter(AccessLevel.NONE)
     private UUID id;
 
+    @Column(name = "nome")
+    private String nome;
+
+    @Column(name = "cognome")
+    private String cognome;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "numero_telefono")
+    private int telefono;
+
     @Column(name = "data")
     private LocalDate data;
 
@@ -33,7 +45,6 @@ public class Prenotazione {
     @ManyToOne()
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
-
 
 
     public void getNumeroCoperti(int i) {

@@ -1,11 +1,10 @@
 package mattia.susin.CAPBACK.services;
 
-import mattia.susin.CAPBACK.entities.Cliente;
 import mattia.susin.CAPBACK.entities.Prenotazione;
 import mattia.susin.CAPBACK.exceptions.BadRequestException;
 import mattia.susin.CAPBACK.exceptions.NotFoundException;
-import mattia.susin.CAPBACK.payloads.PrenotazioneDTO;
-import mattia.susin.CAPBACK.payloads.PrenotazioneRespDTO;
+import mattia.susin.CAPBACK.payloads.prenotazione.PrenotazioneDTO;
+import mattia.susin.CAPBACK.payloads.prenotazione.PrenotazioneRespDTO;
 import mattia.susin.CAPBACK.repositories.ClientiRepository;
 import mattia.susin.CAPBACK.repositories.PrenotazioneRepository;
 import org.springframework.beans.factory.annotation.Autowired;

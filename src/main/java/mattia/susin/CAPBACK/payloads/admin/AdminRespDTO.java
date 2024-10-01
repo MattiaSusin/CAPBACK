@@ -1,4 +1,4 @@
-package mattia.susin.CAPBACK.payloads;
+package mattia.susin.CAPBACK.payloads.admin;
 
 import java.util.UUID;
 

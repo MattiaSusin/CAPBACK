@@ -2,8 +2,8 @@ package mattia.susin.CAPBACK.controllers;
 
 import mattia.susin.CAPBACK.entities.Prenotazione;
 import mattia.susin.CAPBACK.exceptions.BadRequestException;
-import mattia.susin.CAPBACK.payloads.PrenotazioneDTO;
-import mattia.susin.CAPBACK.payloads.PrenotazioneRespDTO;
+import mattia.susin.CAPBACK.payloads.prenotazione.PrenotazioneDTO;
+import mattia.susin.CAPBACK.payloads.prenotazione.PrenotazioneRespDTO;
 import mattia.susin.CAPBACK.services.PrenotazioniService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;

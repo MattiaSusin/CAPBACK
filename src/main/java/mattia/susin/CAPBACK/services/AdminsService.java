@@ -3,7 +3,7 @@ package mattia.susin.CAPBACK.services;
 import mattia.susin.CAPBACK.entities.Admin;
 import mattia.susin.CAPBACK.exceptions.BadRequestException;
 import mattia.susin.CAPBACK.exceptions.NotFoundException;
-import mattia.susin.CAPBACK.payloads.AdminDTO;
+import mattia.susin.CAPBACK.payloads.admin.AdminDTO;
 import mattia.susin.CAPBACK.repositories.AdminsRepository;
 import mattia.susin.CAPBACK.tools.MailgunSender;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +85,7 @@ public class AdminsService {
     public Admin findByEmail(String email) {
         return adminsRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("L'utente con l'email " + email + " non è stato trovato!"));
     }
+
     // 7 --> SAVE
 
     public Admin save(AdminDTO body){

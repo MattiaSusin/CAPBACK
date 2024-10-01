@@ -2,7 +2,7 @@ package mattia.susin.CAPBACK.services;
 
 import mattia.susin.CAPBACK.entities.Admin;
 import mattia.susin.CAPBACK.exceptions.UnauthorizedException;
-import mattia.susin.CAPBACK.payloads.AdminLoginDTO;
+import mattia.susin.CAPBACK.payloads.admin.AdminLoginDTO;
 import mattia.susin.CAPBACK.security.JWTTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +22,9 @@ public class AuthServices {
     @Autowired
     private PasswordEncoder bcrypt;
 
+    public AuthServices() {
+        System.out.println("AuthServices bean creato correttamente");
+    }
     // METODI
 
     public String checkCredentialsAndGenerateToken(AdminLoginDTO body) {

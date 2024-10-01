@@ -1,7 +1,6 @@
 package mattia.susin.CAPBACK.controllers;
 
 import mattia.susin.CAPBACK.entities.Cliente;
-import mattia.susin.CAPBACK.payloads.ClienteRespDTO;
 import mattia.susin.CAPBACK.services.ClientiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

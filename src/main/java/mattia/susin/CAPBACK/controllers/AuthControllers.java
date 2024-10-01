@@ -1,10 +1,10 @@
 package mattia.susin.CAPBACK.controllers;
 
 import mattia.susin.CAPBACK.exceptions.BadRequestException;
-import mattia.susin.CAPBACK.payloads.AdminDTO;
-import mattia.susin.CAPBACK.payloads.AdminLoginDTO;
-import mattia.susin.CAPBACK.payloads.AdminLoginRespDTO;
-import mattia.susin.CAPBACK.payloads.AdminRespDTO;
+import mattia.susin.CAPBACK.payloads.admin.AdminDTO;
+import mattia.susin.CAPBACK.payloads.admin.AdminLoginDTO;
+import mattia.susin.CAPBACK.payloads.admin.AdminLoginRespDTO;
+import mattia.susin.CAPBACK.payloads.admin.AdminRespDTO;
 import mattia.susin.CAPBACK.services.AdminsService;
 import mattia.susin.CAPBACK.services.AuthServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class AuthControllers {
 
     @Autowired
     private AdminsService adminsService;
-
+    @Autowired
     private AuthServices authServices;
 
     // METODI
@@ -31,8 +31,8 @@ public class AuthControllers {
     // 1 --> LOGIN
 
     @PostMapping("/login")
-    public AdminLoginRespDTO login(@RequestBody AdminLoginDTO payload) {
-        return new AdminLoginRespDTO(this.authServices.checkCredentialsAndGenerateToken(payload));
+    public AdminLoginRespDTO login(@RequestBody AdminLoginDTO loginDTO) {
+        return new AdminLoginRespDTO(this.authServices.checkCredentialsAndGenerateToken(loginDTO));
     }
 
     // 2 --> SAVE/REGISTER

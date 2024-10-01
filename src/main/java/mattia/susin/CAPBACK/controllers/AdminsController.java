@@ -24,7 +24,6 @@ public class AdminsController {
     // 1 --> GET ALL
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
     public Page<Admin> findAll(@RequestParam(defaultValue = "0") int page,
                                @RequestParam(defaultValue = "10") int size,
                                @RequestParam(defaultValue = "id") String sortBy) {
