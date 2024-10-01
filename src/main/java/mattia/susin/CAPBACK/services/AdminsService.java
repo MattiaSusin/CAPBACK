@@ -5,6 +5,7 @@ import mattia.susin.CAPBACK.exceptions.BadRequestException;
 import mattia.susin.CAPBACK.exceptions.NotFoundException;
 import mattia.susin.CAPBACK.payloads.AdminDTO;
 import mattia.susin.CAPBACK.repositories.AdminsRepository;
+import mattia.susin.CAPBACK.tools.MailgunSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +27,8 @@ public class AdminsService {
     private PasswordEncoder bcrypt;
 
     @Autowired
+    private MailgunSender mailgunSender;
+
 
     // METODI
 
@@ -84,17 +87,23 @@ public class AdminsService {
     }
     // 7 --> SAVE
 
-    public Admin saveAdmin(AdminDTO body){
+    public Admin save(AdminDTO body){
         // 1 --> Verifichiamo che la mail non sia stata utilizzata
         this.adminsRepository.findByEmail(body.email()).ifPresent(
                 user ->{
-                    throw new BadRequestException("L'email " + body.email() " l'email è già in uso");
+                    throw new BadRequestException("L'email " + body.email() + " l'email è già in uso");
                 }
         );
 
         // 2 --> Se va tutto bene aggiungo i campi 'server-generated' ovvero l'avatarUrl
-        Admin newUser = new Admin(body.nome(), body.cognome(), body.email(), bcrypt.encode(body.password()),
+
+        Admin newAdmin = new Admin(body.nome(),body.cognome(),body.email(),bcrypt.encode(body.password()),
                 "https://ui-avatars.com/api/?name=" + body.nome() + "+" + body.cognome());
+
+        Admin savedAdmin = this.adminsRepository.save(newAdmin);
+
+        mailgunSender.sendRegistrationEmail(savedAdmin);
+        return savedAdmin;
     }
 }
 

@@ -39,7 +39,7 @@ public class AuthControllers {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public AdminRespDTO saveAdmin(@RequestBody @Validated AdminDTO body, BindingResult validationResult) {
+    public AdminRespDTO save(@RequestBody @Validated AdminDTO body, BindingResult validationResult) {
         // @Validated serve per 'attivare' le regole di validazione descritte nel DTO
         // BindingResult mi permette di capire se ci sono stati errori e quali errori ci sono stati
 
@@ -53,7 +53,7 @@ public class AuthControllers {
         } else {
             // Se non ci sono stati salviamo l'utente
 
-            return new AdminRespDTO(this.adminsService.saveAdmin(body).getId());
+            return new AdminRespDTO(this.adminsService.save(body).getId());
         }
 
     }

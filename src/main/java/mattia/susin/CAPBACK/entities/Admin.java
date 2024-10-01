@@ -32,6 +32,14 @@ public class Admin {
     @Column(name = "avatar")
     private String avatarURL;
 
+    public Admin(String nome, String cognome, String email, String password, String avatarURL) {
+        this.nome = nome;
+        this.cognome = cognome;
+        this.email = email;
+        this.password = password;
+        this.avatarURL = avatarURL;
+    }
+
     // COSTRUTTORI
 
 }
