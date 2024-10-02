@@ -1,8 +1,7 @@
-package mattia.susin.CAPBACK.payloads;
+package mattia.susin.CAPBACK.payloads.menu;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import mattia.susin.CAPBACK.enums.TipoPiatto;
 
 public record MenuDTO(@NotEmpty(message = "Campo obbligatorio. Inserire Titolo del piatto.")
                       @Size(min = 3, max = 30, message = "Il nome deve essere compreso tra 3 e 30 caratteri")

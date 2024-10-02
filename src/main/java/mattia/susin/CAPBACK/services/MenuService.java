@@ -2,12 +2,9 @@ package mattia.susin.CAPBACK.services;
 
 
 import mattia.susin.CAPBACK.entities.Menu;
-import mattia.susin.CAPBACK.entities.Prenotazione;
 import mattia.susin.CAPBACK.enums.TipoPiatto;
-import mattia.susin.CAPBACK.exceptions.BadRequestException;
 import mattia.susin.CAPBACK.exceptions.NotFoundException;
-import mattia.susin.CAPBACK.payloads.MenuDTO;
-import mattia.susin.CAPBACK.payloads.prenotazione.PrenotazioneDTO;
+import mattia.susin.CAPBACK.payloads.menu.MenuDTO;
 import mattia.susin.CAPBACK.repositories.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -1,24 +1,24 @@
 package mattia.susin.CAPBACK.entities;
 
-
+import com.sun.jdi.PrimitiveValue;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import mattia.susin.CAPBACK.enums.TipoPiatto;
+import mattia.susin.CAPBACK.enums.TipoDrink;
 
 import java.util.UUID;
 
 @Entity
-@Table(name = "menu")
+@Table(name = "drinks")
 @Getter
 @Setter
-@NoArgsConstructor
 @ToString
-public class Menu {
+@NoArgsConstructor
+public class Drink {
     @Id
     @GeneratedValue
-    @Setter(AccessLevel.NONE)
     @Column(name = "id")
+    @Setter(AccessLevel.NONE)
     private UUID id;
 
     @Column(name = "titolo")
@@ -35,17 +35,11 @@ public class Menu {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private TipoPiatto tipoPiatto;
+    private TipoDrink tipoDrink;
+
+    //COSTRUTTORI
 
 
-    // COSTRUTTORI
-
-    public Menu(String titolo, String descrizione, String prezzo, String tipoPiatto) {
-        this.titolo = titolo;
-        this.descrizione = descrizione;
-        this.prezzo = Double.parseDouble(prezzo);
-        this.tipoPiatto = TipoPiatto.valueOf(tipoPiatto);
-    }
 
 
 }

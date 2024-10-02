@@ -1,10 +1,13 @@
 package mattia.susin.CAPBACK.controllers;
 
+import mattia.susin.CAPBACK.entities.Drink;
 import mattia.susin.CAPBACK.entities.Menu;
 import mattia.susin.CAPBACK.exceptions.BadRequestException;
+import mattia.susin.CAPBACK.payloads.drink.DrinkDTO;
+import mattia.susin.CAPBACK.payloads.drink.DrinkRespDTO;
 import mattia.susin.CAPBACK.payloads.menu.MenuDTO;
 import mattia.susin.CAPBACK.payloads.menu.MenuRespDTO;
-import mattia.susin.CAPBACK.services.MenuService;
+import mattia.susin.CAPBACK.services.DrinksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -17,31 +20,32 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/menu")
-public class MenuController {
+@RequestMapping("/drink")
+public class DrinksController {
 
     // IMPORTI
 
     @Autowired
-    private MenuService menuService;
+    private DrinksService drinksService;
 
     // METODI
 
     // 1 --> GET ALL
 
     @GetMapping
-    public Page<Menu> findAllMenu(@RequestParam(defaultValue = "0") int page,
-                                  @RequestParam(defaultValue = "10") int size,
-                                  @RequestParam(defaultValue = "id") String sortBy) {
-        return this.menuService.findAllMenu(page, size, sortBy);
+    public Page<Drink> findAllMenu(@RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "10") int size,
+                                   @RequestParam(defaultValue = "id") String sortBy) {
+        return this.drinksService.findAllMenu(page, size, sortBy);
     }
+
 
     // 2 --> POST
 
     @PostMapping("/crea")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
-    public MenuRespDTO save(@RequestBody @Validated MenuDTO body, BindingResult validationResult) {
+    public DrinkRespDTO save(@RequestBody @Validated DrinkDTO body, BindingResult validationResult) {
 
         if (validationResult.hasErrors()) {
             String messages = validationResult.getAllErrors().stream()
@@ -50,31 +54,32 @@ public class MenuController {
 
             throw new BadRequestException("Ci sono stati errori nel payload. " + messages);
         } else {
-            return new MenuRespDTO(this.menuService.savedMenu(body).getId());
+            return new DrinkRespDTO(this.drinksService.savedDrink(body).getId());
         }
     }
 
     // 3 --> GET ID
 
-    @GetMapping("/{menuId}")
-    public Menu findByIdMenu(@PathVariable UUID menuId) {
-        return this.menuService.findByIdMenu(menuId);
+    @GetMapping("/{drinkId}")
+    public Drink findByIdDrink(@PathVariable UUID drinkId) {
+        return this.drinksService.findByIdDrink(drinkId);
     }
 
     // 4 --> PUT
 
-    @PutMapping("/{menuId}")
+    @PutMapping("/{drinkId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public Menu findByIdAndUpdateMenu(@PathVariable UUID menuId, @RequestBody Menu body) {
-        return this.menuService.findByIdAndUpdateMenu(menuId, body);
+    public Drink findByIdAndUpdateDrink(@PathVariable UUID drinkId, @RequestBody Drink body) {
+        return this.drinksService.findByIdAndUpdateDrink(drinkId, body);
     }
 
     // 5 --> DELETE
 
-    @DeleteMapping("/{menuId}")
+    @DeleteMapping("/{drinkId}")
     @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void findByIdAndDeleteMenu(@PathVariable UUID menuId) {
-        this.menuService.findByIdAndDeleteMenu(menuId);
+    public void findByIdAndDeleteMenu(@PathVariable UUID drinkId) {
+        this.drinksService.findByIdAndDeleteDrink(drinkId);
     }
+
 }
