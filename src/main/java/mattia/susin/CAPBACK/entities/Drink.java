@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import mattia.susin.CAPBACK.enums.TipoDrink;
+import mattia.susin.CAPBACK.enums.TipoPiatto;
 
 import java.util.UUID;
 
@@ -37,9 +38,15 @@ public class Drink {
     @Enumerated(EnumType.STRING)
     private TipoDrink tipoDrink;
 
+
+
     //COSTRUTTORI
 
 
-
-
+    public Drink(String titolo, String descrizione, String prezzo, String tipoDrink) {
+        this.titolo = titolo;
+        this.descrizione = descrizione;
+        this.prezzo = Double.parseDouble(prezzo);
+        this.tipoDrink = TipoDrink.valueOf(tipoDrink);
+    }
 }

@@ -47,7 +47,7 @@ public class DrinksService {
         // 2 --> Se va tutto bene aggiungo i campi 'server-generated' ovvero l'avatarUrl
 
         TipoDrink tipoDrink = TipoDrink.valueOf(body.tipoDrink());
-        Drink newDrink = new Menu(body.titolo(),body.descrizione(),body.prezzo(),body.tipoDrink());
+        Drink newDrink = new Drink(body.titolo(),body.descrizione(),body.prezzo(),body.tipoDrink());
 
         Drink savedDrink = this.drinksRepository.save(newDrink);
 
