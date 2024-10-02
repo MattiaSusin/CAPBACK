@@ -54,7 +54,7 @@ public class PrenotazioniService {
         // 2. Se tutto è ok procedo con l'aggiungere campi 'server-generated' (avatarURL)
 
         Prenotazione newPrenotazione = new Prenotazione(body.nome(),body.cognome(),body.email(),body.telefono(),
-                body.data(),body.numeroCoperti(),body.orario(),"https://ui-avatars.com/api/?name=" + body.nome() + "+" + body.cognome());
+                body.data(),body.numeroCoperti(),body.orario());
 
         // 3. Salvo lo User
         Prenotazione savedPrenotazione = this.prenotazioneRepository.save(newPrenotazione);
@@ -91,7 +91,6 @@ public class PrenotazioniService {
         found.setData(newPrenotazioneData.data());
         found.setOrario(Double.parseDouble(newPrenotazioneData.orario()));
         found.getNumeroCoperti(newPrenotazioneData.numeroCoperti());
-        found.setAvatarURL("https://ui-avatars.com/api/?name=" + newPrenotazioneData.nome() + "+" + newPrenotazioneData.cognome());
 
         return new PrenotazioneRespDTO(this.prenotazioneRepository.save(found).getId());
     }

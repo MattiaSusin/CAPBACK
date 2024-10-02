@@ -27,6 +27,7 @@ public class PrenotazioniController {
 
     // 1 --> GET ALL
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public Page<Prenotazione> findAllPrenotazione(@RequestParam(defaultValue = "0") int page,
                                              @RequestParam(defaultValue = "10") int size,
@@ -34,25 +35,12 @@ public class PrenotazioniController {
         return this.prenotazioniService.findAllPrenotazione(page, size, sortBy);
     }
 
-    // 2 --> POST/SAVE
-    @PostMapping("/crea")
-    @PreAuthorize("hasAnyAuthority('UTENTE','ADMIN')")
-    @ResponseStatus(HttpStatus.CREATED)
-    public PrenotazioneRespDTO save(@RequestBody @Validated PrenotazioneDTO body, BindingResult validationResult) {
+    // 2 --> POST/SAVE --> AuthControllers
 
-        if (validationResult.hasErrors()) {
-            String messages = validationResult.getAllErrors().stream()
-                    .map(objectError -> objectError.getDefaultMessage())
-                    .collect(Collectors.joining(". "));
-
-            throw new BadRequestException("Ci sono stati errori nel payload. " + messages);
-        } else {
-            return new PrenotazioneRespDTO(this.prenotazioniService.savePrenotazione(body).getId());
-        }
-    }
 
     // 3 --> GET ID
     @GetMapping("/{prenotazioneId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Prenotazione findIdPrenotazione(@PathVariable UUID prenotazioneId) {
         return this.prenotazioniService.findIdPrenotazione(prenotazioneId);
     }

@@ -62,4 +62,20 @@ public class AuthControllers {
         }
 
     }
+
+
+    @PostMapping("/crea")
+    @ResponseStatus(HttpStatus.CREATED)
+    public PrenotazioneRespDTO save(@RequestBody @Validated PrenotazioneDTO body, BindingResult validationResult) {
+
+        if (validationResult.hasErrors()) {
+            String messages = validationResult.getAllErrors().stream()
+                    .map(objectError -> objectError.getDefaultMessage())
+                    .collect(Collectors.joining(". "));
+
+            throw new BadRequestException("Ci sono stati errori nel payload. " + messages);
+        } else {
+            return new PrenotazioneRespDTO(this.prenotazioniService.savePrenotazione(body).getId());
+        }
+    }
 }

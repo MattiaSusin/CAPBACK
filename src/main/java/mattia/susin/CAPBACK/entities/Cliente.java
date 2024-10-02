@@ -35,8 +35,8 @@ public class Cliente {
     @Enumerated(EnumType.STRING)
     private Ruolo ruolo;
 
-    @OneToMany()
-    private List<Prenotazione> prenotazione;
+  /*  @OneToMany()
+    private List<Prenotazione> prenotazione;*/
 
     // COSTRUTTORI
 

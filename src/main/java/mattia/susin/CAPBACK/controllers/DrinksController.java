@@ -20,7 +20,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/drink")
+@RequestMapping("/drinks")
 public class DrinksController {
 
     // IMPORTI

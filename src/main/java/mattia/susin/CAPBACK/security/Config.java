@@ -30,10 +30,9 @@ public class Config {
 
 		httpSecurity.sessionManagement(http -> http.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-		httpSecurity.authorizeHttpRequests(http -> http.requestMatchers("/**").permitAll());
+		httpSecurity.authorizeHttpRequests(http -> http.requestMatchers("/**").permitAll().anyRequest().authenticated());
 
 		httpSecurity.cors(Customizer.withDefaults());
-
 
 		return httpSecurity.build();
 	}

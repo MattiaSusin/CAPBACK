@@ -63,7 +63,7 @@ public class DrinksService {
 
     // 4 --> PUT
 
-    public Drink findByIdAndUpdateMenu(UUID drinkId, Drink newDrinkData){
+    public Drink findByIdAndUpdateDrink(UUID drinkId, Drink newDrinkData){
 
 
         Drink found = this.findByIdDrink(drinkId);

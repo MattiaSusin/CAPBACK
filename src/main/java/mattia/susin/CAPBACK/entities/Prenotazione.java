@@ -45,21 +45,13 @@ public class Prenotazione implements UserDetails {
     @Column(name = "orario")
     private double orario;
 
-    @Column(name = "coperti_Disponibili")
-    private int copertiDisponibili;
-
-    @Column(name = "avatar")
-    private String avatarURL;
-
-    @ManyToOne()
+   /* @ManyToOne()
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
-
-    @Enumerated(EnumType.STRING)
-    private Ruolo ruolo;
+    */
 
     // COSTUTTORI
-    public Prenotazione(String nome, String cognome, String email, String telefono, LocalDate data, int numeroCoperti, String orario, String avatarURL) {
+    public Prenotazione(String nome, String cognome, String email, String telefono, LocalDate data, int numeroCoperti, String orario) {
         this.nome = nome;
         this.cognome = cognome;
         this.email = email;
@@ -67,15 +59,13 @@ public class Prenotazione implements UserDetails {
         this.data = data;
         this.numeroCoperti = numeroCoperti;
         this.orario = Double.parseDouble(orario);
-        this.ruolo = Ruolo.CLIENTE;
+
 
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        return List.of(new SimpleGrantedAuthority(this.ruolo.name()));
+        return List.of();
     }
 
     @Override
