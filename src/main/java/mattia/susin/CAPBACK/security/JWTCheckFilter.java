@@ -26,9 +26,6 @@ public class JWTCheckFilter extends OncePerRequestFilter {
 	@Autowired
 	private AdminsService adminsService;
 
-	@Autowired
-	private PrenotazioniService prenotazioniService;
-
 
 	// ADMIN
 

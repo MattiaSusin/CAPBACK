@@ -48,7 +48,8 @@ public class AdminsService {
 
     // 3 --> GET ID
     public Admin findByIdAdmin(UUID adminId) {
-        return this.adminsRepository.findById(adminId).orElseThrow(() -> new NotFoundException(adminId));
+        return this.adminsRepository.findById(adminId).orElseThrow(() ->
+                new NotFoundException("Admin con ID " + adminId + " non trovato."));
     }
 
     // 4 --> PUT

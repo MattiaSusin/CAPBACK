@@ -62,26 +62,4 @@ public class AuthControllers {
         }
 
     }
-// 2 --> SAVE/REGISTER --> PRENOTAZIONE
-
-    @PostMapping("/crea")
-    @ResponseStatus(HttpStatus.CREATED)
-    public PrenotazioneRespDTO save(@RequestBody @Validated PrenotazioneDTO body, BindingResult validationResult) {
-        // @Validated serve per 'attivare' le regole di validazione descritte nel DTO
-        // BindingResult mi permette di capire se ci sono stati errori e quali errori ci sono stati
-
-        if (validationResult.hasErrors()) {
-            // Se ci sono stati errori lanciamo un'eccezione custom
-            String messages = validationResult.getAllErrors().stream()
-                    .map(objectError -> objectError.getDefaultMessage())
-                    .collect(Collectors.joining(". "));
-
-            throw new BadRequestException("Ci sono stati errori nel payload. " + messages);
-        } else {
-            // Se non ci sono stati salviamo l'utente
-
-            return new PrenotazioneRespDTO(this.prenotazioniService.save(body).getId());
-        }
-
-    }
 }

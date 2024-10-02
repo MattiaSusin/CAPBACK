@@ -35,7 +35,7 @@ public class PrenotazioniController {
     }
 
     // 2 --> POST/SAVE
-    @PostMapping("/prenotazioni/crea")
+    @PostMapping("/crea")
     @PreAuthorize("hasAnyAuthority('UTENTE','ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public PrenotazioneRespDTO save(@RequestBody @Validated PrenotazioneDTO body, BindingResult validationResult) {

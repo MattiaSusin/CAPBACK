@@ -33,7 +33,7 @@ public class AdminsController {
     // 2 --> POST --> in AuthControllers
 
     // 3 --> GET ID
-    @GetMapping("/{userId}")
+    @GetMapping("/{adminId}")
     public Admin findByIdAdmin(@PathVariable UUID adminId) {
         return this.adminsService.findByIdAdmin(adminId);
     }
@@ -45,6 +45,7 @@ public class AdminsController {
         return this.adminsService.findByIdAndUpdateAdmin(adminId, body);
     }
     // 5 --> DELETE
+
 
     @DeleteMapping("/{adminId}")
     @PreAuthorize("hasAuthority('ADMIN')")
