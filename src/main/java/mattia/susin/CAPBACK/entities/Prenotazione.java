@@ -2,8 +2,13 @@ package mattia.susin.CAPBACK.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -12,7 +17,7 @@ import java.util.UUID;
 @Setter
 @ToString
 @NoArgsConstructor
-public class Prenotazione {
+public class Prenotazione implements UserDetails {
     @Id
     @GeneratedValue
     @Setter(AccessLevel.NONE)
@@ -49,6 +54,10 @@ public class Prenotazione {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
+    @Enumerated(EnumType.STRING)
+    private Ruolo ruolo;
+
+    // COSTUTTORI
     public Prenotazione(String nome, String cognome, String email, String telefono, LocalDate data, int numeroCoperti, String orario, String avatarURL) {
         this.nome = nome;
         this.cognome = cognome;
@@ -57,11 +66,27 @@ public class Prenotazione {
         this.data = data;
         this.numeroCoperti = numeroCoperti;
         this.orario = Double.parseDouble(orario);
+        this.ruolo = Ruolo.CLIENTE;
+
     }
 
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+
+        return List.of(new SimpleGrantedAuthority(this.ruolo.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return this.email;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
 
     public void getNumeroCoperti(int i) {
     }
-
-    // COSTUTTORI
 }

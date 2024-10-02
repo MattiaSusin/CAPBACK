@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import mattia.susin.CAPBACK.entities.Admin;
 import mattia.susin.CAPBACK.exceptions.UnauthorizedException;
 import mattia.susin.CAPBACK.services.AdminsService;
+import mattia.susin.CAPBACK.services.PrenotazioniService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,12 @@ public class JWTCheckFilter extends OncePerRequestFilter {
 	private JWTTools jwtTools;
 	@Autowired
 	private AdminsService adminsService;
+
+	@Autowired
+	private PrenotazioniService prenotazioniService;
+
+
+	// ADMIN
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -62,6 +69,8 @@ public class JWTCheckFilter extends OncePerRequestFilter {
 
 		// 5. Se il token non è ok --> 401
 	}
+
+
 
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {

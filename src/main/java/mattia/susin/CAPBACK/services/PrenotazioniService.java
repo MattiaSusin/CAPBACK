@@ -40,18 +40,18 @@ public class PrenotazioniService {
         return this.prenotazioneRepository.findAll(pageable);
     }
 
-    // 2 --> POST/SAVE
+    // 2 --> POST
 
     public Prenotazione save(PrenotazioneDTO body) {
         // 1. Verifico che l'email non sia già stata utilizzata
         this.prenotazioneRepository.findByEmail(body.email()).ifPresent(
-                // 1.1 Se lo è triggero un errore (400 Bad Request)
+                // 1.1 Se lo è mando un errore --> 404
                 user -> {
                     throw new BadRequestException("L'email " + body.email() + " è già in uso!");
                 }
         );
 
-        // 2. Se tutto è ok procedo con l'aggiungere campi 'server-generated' (nel nostro caso avatarURL)
+        // 2. Se tutto è ok procedo con l'aggiungere campi 'server-generated' (avatarURL)
 
         Prenotazione newPrenotazione = new Prenotazione(body.nome(),body.cognome(),body.email(),body.telefono(),
                 body.data(),body.numeroCoperti(),body.orario(),"https://ui-avatars.com/api/?name=" + body.nome() + "+" + body.cognome());
@@ -70,8 +70,9 @@ public class PrenotazioniService {
         return prenotazioneRepository.findById(clienteId)
                 .orElseThrow(() -> new NotFoundException("Cliente con id " + clienteId + " non trovato."));
     }
+
     // 4 --> DELETE
-    public void findIdClienteAndDelete(UUID fattureId) {
+    public void findIdPrenotazioneAndDelete(UUID fattureId) {
         Prenotazione found = this.findIdPrenotazione(fattureId);
         try {
             this.prenotazioneRepository.delete(found);
@@ -83,10 +84,15 @@ public class PrenotazioniService {
     // 5 --> PUT
     public PrenotazioneRespDTO findIdAndUpdatePrenotazione(UUID prenotazioneId, PrenotazioneDTO newPrenotazioneData){
         Prenotazione found = this.findIdPrenotazione(prenotazioneId);
-
+        found.setNome(newPrenotazioneData.nome());
+        found.setCognome(newPrenotazioneData.cognome());
+        found.setEmail(newPrenotazioneData.email());
+        found.setTelefono(newPrenotazioneData.telefono());
         found.setData(newPrenotazioneData.data());
         found.setOrario(Double.parseDouble(newPrenotazioneData.orario()));
         found.getNumeroCoperti(newPrenotazioneData.numeroCoperti());
+        found.setAvatarURL("https://ui-avatars.com/api/?name=" + newPrenotazioneData.nome() + "+" + newPrenotazioneData.cognome());
+
         return new PrenotazioneRespDTO(this.prenotazioneRepository.save(found).getId());
     }
 
@@ -95,9 +101,13 @@ public class PrenotazioniService {
     public Prenotazione savePrenotazione(PrenotazioneDTO body){
         Prenotazione newPrenotazione = new Prenotazione();
 
+        newPrenotazione.setNome(body.nome());
+        newPrenotazione.setCognome(body.cognome());
+        newPrenotazione.setEmail(body.email());
+        newPrenotazione.setTelefono(body.telefono());
         newPrenotazione.setOrario(Double.parseDouble(body.orario()));
         newPrenotazione.setData(body.data());
-        newPrenotazione.getNumeroCoperti(body.numeroCoperti());
+        newPrenotazione.setNumeroCoperti(body.numeroCoperti());
 
         return this.prenotazioneRepository.save(newPrenotazione);
     }

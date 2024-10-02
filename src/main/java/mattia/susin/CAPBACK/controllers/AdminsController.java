@@ -40,14 +40,14 @@ public class AdminsController {
 
     // 4 --> PUT
     @PutMapping("/{adminId}")
-    @PreAuthorize("hasAuthority('ADMIN')") // Solo gli admin possono modificare altri utenti
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Admin findByIdAndUpdateAdmin(@PathVariable UUID adminId, @RequestBody Admin body) {
         return this.adminsService.findByIdAndUpdateAdmin(adminId, body);
     }
     // 5 --> DELETE
 
     @DeleteMapping("/{adminId}")
-    @PreAuthorize("hasAuthority('ADMIN')") // Solo gli admin possono cancellare altri utenti
+    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void findByIdAndDeleteAdmin(@PathVariable UUID adminId) {
         this.adminsService.findByIdAndDeleteAdmin(adminId);

@@ -34,7 +34,7 @@ public class PrenotazioniController {
         return this.prenotazioniService.findAllPrenotazione(page, size, sortBy);
     }
 
-    // 2 --> POST
+    // 2 --> POST/SAVE
     @PostMapping("/prenotazioni/crea")
     @PreAuthorize("hasAnyAuthority('UTENTE','ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
@@ -53,17 +53,16 @@ public class PrenotazioniController {
 
     // 3 --> GET ID
     @GetMapping("/{prenotazioneId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN','UTENTE')")
-    public Prenotazione findIdPrenotazione(@PathVariable UUID clienteId) {
-        return this.prenotazioniService.findIdPrenotazione(clienteId);
+    public Prenotazione findIdPrenotazione(@PathVariable UUID prenotazioneId) {
+        return this.prenotazioniService.findIdPrenotazione(prenotazioneId);
     }
 
     // 4 --> DELETE
-    @DeleteMapping("/{clienteId}")
+    @DeleteMapping("/{prenotazioneId}")
     @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void findIdClienteAndDelete(@PathVariable UUID clienteId) {
-        this.prenotazioniService.findIdClienteAndDelete(clienteId);
+    public void findIdClienteAndDelete(@PathVariable UUID prenotazioneId) {
+        this.prenotazioniService.findIdPrenotazioneAndDelete(prenotazioneId);
     }
 
     // 5 --> PUT
@@ -74,7 +73,8 @@ public class PrenotazioniController {
         return this.prenotazioniService.findIdAndUpdatePrenotazione(clienteId, body);
     }
 
-    // 7 --> EMAIL --> prenotazioneRepository
+    // 7 --> FIND BY EMAIL --> prenotazioneRepository
+
 
 
 }

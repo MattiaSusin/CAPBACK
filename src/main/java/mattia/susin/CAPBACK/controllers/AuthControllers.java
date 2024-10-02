@@ -5,8 +5,11 @@ import mattia.susin.CAPBACK.payloads.admin.AdminDTO;
 import mattia.susin.CAPBACK.payloads.admin.AdminLoginDTO;
 import mattia.susin.CAPBACK.payloads.admin.AdminLoginRespDTO;
 import mattia.susin.CAPBACK.payloads.admin.AdminRespDTO;
+import mattia.susin.CAPBACK.payloads.prenotazione.PrenotazioneDTO;
+import mattia.susin.CAPBACK.payloads.prenotazione.PrenotazioneRespDTO;
 import mattia.susin.CAPBACK.services.AdminsService;
 import mattia.susin.CAPBACK.services.AuthServices;
+import mattia.susin.CAPBACK.services.PrenotazioniService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -25,6 +28,8 @@ public class AuthControllers {
     private AdminsService adminsService;
     @Autowired
     private AuthServices authServices;
+    @Autowired
+    private PrenotazioniService prenotazioniService;
 
     // METODI
 
@@ -35,7 +40,7 @@ public class AuthControllers {
         return new AdminLoginRespDTO(this.authServices.checkCredentialsAndGenerateToken(loginDTO));
     }
 
-    // 2 --> SAVE/REGISTER
+    // 2 --> SAVE/REGISTER --> ADMIN
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
@@ -57,5 +62,26 @@ public class AuthControllers {
         }
 
     }
+// 2 --> SAVE/REGISTER --> PRENOTAZIONE
 
+    @PostMapping("/crea")
+    @ResponseStatus(HttpStatus.CREATED)
+    public PrenotazioneRespDTO save(@RequestBody @Validated PrenotazioneDTO body, BindingResult validationResult) {
+        // @Validated serve per 'attivare' le regole di validazione descritte nel DTO
+        // BindingResult mi permette di capire se ci sono stati errori e quali errori ci sono stati
+
+        if (validationResult.hasErrors()) {
+            // Se ci sono stati errori lanciamo un'eccezione custom
+            String messages = validationResult.getAllErrors().stream()
+                    .map(objectError -> objectError.getDefaultMessage())
+                    .collect(Collectors.joining(". "));
+
+            throw new BadRequestException("Ci sono stati errori nel payload. " + messages);
+        } else {
+            // Se non ci sono stati salviamo l'utente
+
+            return new PrenotazioneRespDTO(this.prenotazioniService.save(body).getId());
+        }
+
+    }
 }
