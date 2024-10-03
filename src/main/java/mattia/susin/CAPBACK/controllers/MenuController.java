@@ -12,7 +12,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -77,4 +79,14 @@ public class MenuController {
     public void findByIdAndDeleteMenu(@PathVariable UUID menuId) {
         this.menuService.findByIdAndDeleteMenu(menuId);
     }
+
+    // 6 --> UPLOAD CLOUDIARY
+
+    @PostMapping("/{menuId}/immagine")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void uploadImage(@RequestParam("immagine") MultipartFile image,@PathVariable UUID menuId) throws IOException {
+
+        this.menuService.uploadImage(image,menuId);
+    }
+
 }

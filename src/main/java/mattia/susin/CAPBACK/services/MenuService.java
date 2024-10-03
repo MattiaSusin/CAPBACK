@@ -1,6 +1,8 @@
 package mattia.susin.CAPBACK.services;
 
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import mattia.susin.CAPBACK.entities.Menu;
 import mattia.susin.CAPBACK.enums.TipoPiatto;
 import mattia.susin.CAPBACK.exceptions.NotFoundException;
@@ -13,7 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.UUID;
 
 @Service
@@ -26,6 +30,9 @@ public class MenuService {
 
     @Autowired
     private PasswordEncoder bcrypt;
+
+    @Autowired
+    private Cloudinary cloudinaryUploader;
 
     // METODI
 
@@ -45,7 +52,7 @@ public class MenuService {
         // 2 --> Se va tutto bene aggiungo i campi 'server-generated' ovvero l'avatarUrl
 
         TipoPiatto tipoPiatto = TipoPiatto.valueOf(body.tipoPiatto());
-        Menu newMenu = new Menu(body.titolo(),body.descrizione(),body.prezzo(),body.tipoPiatto());
+        Menu newMenu = new Menu(body.titolo(),body.descrizione(),body.prezzo(),body.tipoPiatto(),body.immagine());
 
         Menu savedMenu = this.menuRepository.save(newMenu);
 
@@ -82,5 +89,15 @@ public class MenuService {
     }
 
 
+    // 6 --> UPLOAD CLOUDIARY
+
+    public void uploadImage(MultipartFile file,UUID menuId) throws IOException {
+        String url = (String) cloudinaryUploader.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
+        System.out.println("URL: " + url);
+        Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new NotFoundException(menuId));
+        menu.setImmagine(url);
+
+        menuRepository.save(menu);
+    }
 
 }

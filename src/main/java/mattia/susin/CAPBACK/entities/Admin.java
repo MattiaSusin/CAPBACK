@@ -43,7 +43,6 @@ public class Admin implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Ruolo ruolo;
 
-
     // COSTRUTTORI
 
     public Admin(String nome, String cognome, String email, String password, String avatarURL) {

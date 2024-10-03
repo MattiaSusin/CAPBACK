@@ -40,12 +40,11 @@ public class Menu {
 
     // COSTRUTTORI
 
-    public Menu(String titolo, String descrizione, String prezzo, String tipoPiatto) {
+    public Menu(String titolo, String descrizione, String prezzo, String tipoPiatto, String immagine) {
         this.titolo = titolo;
         this.descrizione = descrizione;
         this.prezzo = Double.parseDouble(prezzo);
         this.tipoPiatto = TipoPiatto.valueOf(tipoPiatto);
+        this.immagine = immagine;
     }
-
-
 }
