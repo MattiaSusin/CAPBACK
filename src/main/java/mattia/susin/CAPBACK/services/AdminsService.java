@@ -104,7 +104,7 @@ public class AdminsService {
 
         Admin savedAdmin = this.adminsRepository.save(newAdmin);
 
-        mailgunSender.sendRegistrationEmailAdmin(savedAdmin);
+
         return savedAdmin;
     }
 }

@@ -43,15 +43,6 @@ public class PrenotazioniService {
     // 2 --> POST
 
     public Prenotazione save(PrenotazioneDTO body) {
-        // 1. Verifico che l'email non sia già stata utilizzata
-        this.prenotazioneRepository.findByEmail(body.email()).ifPresent(
-                // 1.1 Se lo è mando un errore --> 404
-                user -> {
-                    throw new BadRequestException("L'email " + body.email() + " è già in uso!");
-                }
-        );
-
-        // 2. Se tutto è ok procedo con l'aggiungere campi 'server-generated' (avatarURL)
 
         Prenotazione newPrenotazione = new Prenotazione(body.nome(),body.cognome(),body.email(),body.telefono(),
                 body.data(),body.numeroCoperti(),body.orario());
@@ -95,21 +86,6 @@ public class PrenotazioniService {
         return new PrenotazioneRespDTO(this.prenotazioneRepository.save(found).getId());
     }
 
-    // 6 --> SAVE
-
-    public Prenotazione savePrenotazione(PrenotazioneDTO body){
-        Prenotazione newPrenotazione = new Prenotazione();
-
-        newPrenotazione.setNome(body.nome());
-        newPrenotazione.setCognome(body.cognome());
-        newPrenotazione.setEmail(body.email());
-        newPrenotazione.setTelefono(body.telefono());
-        newPrenotazione.setOrario(Double.parseDouble(body.orario()));
-        newPrenotazione.setData(body.data());
-        newPrenotazione.setNumeroCoperti(body.numeroCoperti());
-
-        return this.prenotazioneRepository.save(newPrenotazione);
-    }
 
     // 7 --> EMAIL
 

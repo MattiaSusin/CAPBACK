@@ -45,23 +45,21 @@ public class Prenotazione implements UserDetails {
     @Column(name = "orario")
     private double orario;
 
-   /* @ManyToOne()
-    @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
-    */
 
     // COSTUTTORI
     public Prenotazione(String nome, String cognome, String email, String telefono, LocalDate data, int numeroCoperti, String orario) {
         this.nome = nome;
         this.cognome = cognome;
         this.email = email;
-        this.telefono = String.valueOf(Integer.parseInt(telefono));
+        this.telefono = telefono;
         this.data = data;
         this.numeroCoperti = numeroCoperti;
         this.orario = Double.parseDouble(orario);
 
 
     }
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

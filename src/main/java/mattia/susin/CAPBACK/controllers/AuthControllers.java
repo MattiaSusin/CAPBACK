@@ -75,7 +75,7 @@ public class AuthControllers {
 
             throw new BadRequestException("Ci sono stati errori nel payload. " + messages);
         } else {
-            return new PrenotazioneRespDTO(this.prenotazioniService.savePrenotazione(body).getId());
+            return new PrenotazioneRespDTO(this.prenotazioniService.save(body).getId());
         }
     }
 }
