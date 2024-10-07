@@ -45,7 +45,7 @@ public class Config {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3002"));
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3301"));
 
 		configuration.setAllowedMethods(Arrays.asList(""));
 		configuration.setAllowedHeaders(Arrays.asList(""));
