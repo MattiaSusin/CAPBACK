@@ -30,14 +30,12 @@ public class CopertiDisponibili {
    @Column(name = "coperti_Disponibili")
    private int[] copertiDisponibili;
 
-   @Column(name = "copertiIniziali")
-   private LocalDate inizio;
-
     @ManyToOne
     @JoinColumn(name = "prenotazione")
     private Prenotazione prenotazione;
 
 
-
-
+    public CopertiDisponibili(int copertiDisponibili) {
+        this.copertiDisponibili = new int[]{copertiDisponibili};
+    }
 }

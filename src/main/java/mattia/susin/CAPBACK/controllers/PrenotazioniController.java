@@ -5,6 +5,7 @@ import mattia.susin.CAPBACK.exceptions.BadRequestException;
 import mattia.susin.CAPBACK.payloads.prenotazione.PrenotazioneDTO;
 import mattia.susin.CAPBACK.payloads.prenotazione.PrenotazioneRespDTO;
 import mattia.susin.CAPBACK.services.PrenotazioniService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 public class PrenotazioniController {
 
     // IMPORTI
-
+    @Autowired
     private PrenotazioniService prenotazioniService;
 
     // METODI

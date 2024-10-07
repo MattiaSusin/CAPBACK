@@ -15,6 +15,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -39,6 +41,24 @@ public class PrenotazioniService {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return this.prenotazioneRepository.findAll(pageable);
     }
+
+
+    public List<Prenotazione> findByNome(String nome){
+        return this.prenotazioneRepository.findByNome(nome);
+    }
+
+    public List<Prenotazione> findByCognome(String cognome){
+        return this.prenotazioneRepository.findByCognome(cognome);
+    }
+
+    public List<Prenotazione> findByData(String data){
+        return this.prenotazioneRepository.findByData(LocalDate.parse(data));
+    }
+
+    public List<Prenotazione> findByTelefono(String telefono){
+        return this.prenotazioneRepository.findByTelefono(telefono);
+    }
+
 
     // 2 --> POST
 
