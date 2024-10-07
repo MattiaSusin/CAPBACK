@@ -1,11 +1,9 @@
 package mattia.susin.CAPBACK.entities;
 
-import com.sun.jdi.PrimitiveValue;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import mattia.susin.CAPBACK.enums.TipoDrink;
-import mattia.susin.CAPBACK.enums.TipoPiatto;
 
 import java.util.UUID;
 
@@ -43,10 +41,12 @@ public class Drink {
     //COSTRUTTORI
 
 
-    public Drink(String titolo, String descrizione, String prezzo, String tipoDrink) {
+    public Drink(String titolo, String descrizione, String prezzo, String tipoDrink,String immagine) {
         this.titolo = titolo;
         this.descrizione = descrizione;
         this.prezzo = Double.parseDouble(prezzo);
         this.tipoDrink = TipoDrink.valueOf(tipoDrink);
+        this.immagine = immagine;
     }
+
 }

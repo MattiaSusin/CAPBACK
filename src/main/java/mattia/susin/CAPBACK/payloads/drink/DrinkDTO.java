@@ -14,5 +14,7 @@ public record DrinkDTO(@NotEmpty(message = "Campo obbligatorio. Inserire Titolo 
                        String prezzo,
                        @NotEmpty(message = "Campo obbligatorio. Inserire il tipo del drink.")
                        @Size(min = 1, max = 30, message = "Il nome deve essere compreso tra 3 e 30 caratteri")
-                       String tipoDrink) {
+                       String tipoDrink,
+                       String immagine
+                       ) {
 }

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface AdminsRepository extends JpaRepository<Admin, UUID> {
+public interface AdminsRepository extends JpaRepository<Admin, Long> {
     Optional<Admin> findByEmail(String email);
     Optional<Admin> findById(UUID id);
 }

@@ -1,14 +1,10 @@
 package mattia.susin.CAPBACK.services;
 
 import mattia.susin.CAPBACK.entities.Drink;
-import mattia.susin.CAPBACK.entities.Menu;
 import mattia.susin.CAPBACK.enums.TipoDrink;
-import mattia.susin.CAPBACK.enums.TipoPiatto;
 import mattia.susin.CAPBACK.exceptions.NotFoundException;
 import mattia.susin.CAPBACK.payloads.drink.DrinkDTO;
-import mattia.susin.CAPBACK.payloads.menu.MenuDTO;
 import mattia.susin.CAPBACK.repositories.DrinksRepository;
-import mattia.susin.CAPBACK.repositories.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,7 +29,7 @@ public class DrinksService {
 
     // 1 --> GET ALL
 
-    public Page<Drink> findAllMenu(int page, int size, String sortBy) {
+    public Page<Drink> findAllDrink(int page, int size, String sortBy) {
         if (page > 100) page = 100;
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
@@ -47,7 +43,7 @@ public class DrinksService {
         // 2 --> Se va tutto bene aggiungo i campi 'server-generated' ovvero l'avatarUrl
 
         TipoDrink tipoDrink = TipoDrink.valueOf(body.tipoDrink());
-        Drink newDrink = new Drink(body.titolo(),body.descrizione(),body.prezzo(),body.tipoDrink());
+        Drink newDrink = new Drink(body.titolo(),body.descrizione(),body.prezzo(),body.tipoDrink(),body.immagine());
 
         Drink savedDrink = this.drinksRepository.save(newDrink);
 
@@ -64,7 +60,6 @@ public class DrinksService {
     // 4 --> PUT
 
     public Drink findByIdAndUpdateDrink(UUID drinkId, Drink newDrinkData){
-
 
         Drink found = this.findByIdDrink(drinkId);
 

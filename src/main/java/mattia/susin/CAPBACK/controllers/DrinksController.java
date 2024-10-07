@@ -33,10 +33,10 @@ public class DrinksController {
     // 1 --> GET ALL
 
     @GetMapping
-    public Page<Drink> findAllMenu(@RequestParam(defaultValue = "0") int page,
+    public Page<Drink> findAllDrink(@RequestParam(defaultValue = "0") int page,
                                    @RequestParam(defaultValue = "10") int size,
                                    @RequestParam(defaultValue = "id") String sortBy) {
-        return this.drinksService.findAllMenu(page, size, sortBy);
+        return this.drinksService.findAllDrink(page, size, sortBy);
     }
 
 

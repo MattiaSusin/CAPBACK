@@ -1,5 +1,6 @@
 package mattia.susin.CAPBACK.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import mattia.susin.CAPBACK.enums.Ruolo;
@@ -44,6 +45,11 @@ public class Prenotazione implements UserDetails {
 
     @Column(name = "orario")
     private double orario;
+
+    @OneToMany(mappedBy = "prenotazione")
+    @JsonIgnore
+    private List<CopertiDisponibili> copertiDisponibiliList;
+
 
 
     // COSTUTTORI

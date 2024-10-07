@@ -64,6 +64,8 @@ public class AuthControllers {
     }
 
 
+    // CREAZIONE PRENOTAZIONE
+
     @PostMapping("/crea")
     @ResponseStatus(HttpStatus.CREATED)
     public PrenotazioneRespDTO save(@RequestBody @Validated PrenotazioneDTO body, BindingResult validationResult) {
