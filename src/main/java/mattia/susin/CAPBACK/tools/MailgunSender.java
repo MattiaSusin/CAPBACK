@@ -23,6 +23,7 @@ public class MailgunSender {
     }
 
     public void sendRegistrationEmailPrenotazione(Prenotazione recipient) {
+        try {
         HttpResponse<JsonNode> response = Unirest.post("https://api.mailgun.net/v3/" + this.domainName + "/messages")
                 .basicAuth("api", this.apiKey)
                 .queryString("from", this.email)
@@ -31,5 +32,7 @@ public class MailgunSender {
                 .queryString("text", "Gentile" + recipient.getNome() +  recipient.getCognome() + ", la tua prenotazione presso Lounge&Restaurant è stata confermata!")
                 .asJson();
         System.out.println(response.getBody()); // <- Stampo il messaggio in risposta per rilevare eventuali errori
+
+        }catch (Exception exception){throw exception;}
     }
 }
