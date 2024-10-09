@@ -1,10 +1,12 @@
 package mattia.susin.CAPBACK.services;
 
+import mattia.susin.CAPBACK.entities.CopertiDisponibili;
 import mattia.susin.CAPBACK.entities.Prenotazione;
 import mattia.susin.CAPBACK.exceptions.BadRequestException;
 import mattia.susin.CAPBACK.exceptions.NotFoundException;
 import mattia.susin.CAPBACK.payloads.prenotazione.PrenotazioneDTO;
 import mattia.susin.CAPBACK.payloads.prenotazione.PrenotazioneRespDTO;
+import mattia.susin.CAPBACK.repositories.CopertiDisponibiliRepository;
 import mattia.susin.CAPBACK.tools.MailgunSender;
 import mattia.susin.CAPBACK.repositories.PrenotazioneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ public class PrenotazioniService {
 
     @Autowired
     private MailgunSender mailgunSender;
+
+    @Autowired
+    CopertiDisponibiliRepository copertiDisponibiliRepository;
 
     // METODI
 
@@ -63,17 +68,38 @@ public class PrenotazioniService {
     // 2 --> POST
 
     public Prenotazione save(PrenotazioneDTO body) {
+        Prenotazione newPrenotazione = new Prenotazione(
+                body.nome(), body.cognome(), body.email(),
+                body.telefono(), body.data(), body.numeroCoperti(), body.orario()
+        );
 
-        Prenotazione newPrenotazione = new Prenotazione(body.nome(),body.cognome(),body.email(),body.telefono(),
-                body.data(),body.numeroCoperti(),body.orario());
+        // Recuperiamo o creiamo i posti disponibili per una data specifica
+        CopertiDisponibili copertiDisponibili = copertiDisponibiliRepository
+                .findByData(body.data())
+                .orElseGet(() -> {
+                    CopertiDisponibili newCoperti = new CopertiDisponibili();
+                    newCoperti.setData(body.data());
+                    newCoperti.setCopertiDisponibili(120); // Imposta il numero massimo
+                    copertiDisponibiliRepository.save(newCoperti);
+                    return newCoperti;
+                });
 
-        // 3. Salvo lo User
+        // Controlla se ci sono abbastanza coperti disponibili
+        if (copertiDisponibili.getCopertiDisponibili() < body.numeroCoperti()) {
+            throw new BadRequestException("Coperti non sufficienti per il giorno selezionato.");
+        }
+
+        // Scala i coperti disponibili
+        copertiDisponibili.scalaCoperti(body.numeroCoperti());
+
+        // Salva i posti disponibili e la prenotazione
+        copertiDisponibiliRepository.save(copertiDisponibili);
         Prenotazione savedPrenotazione = this.prenotazioneRepository.save(newPrenotazione);
 
-        // 4. Invio email conferma registrazione
+        // Invia la mail di conferma
         mailgunSender.sendRegistrationEmailPrenotazione(savedPrenotazione);
 
-        return savedPrenotazione;
+        return savedPrenotazione; // Restituisce la prenotazione salvata
     }
 
     // 3 --> GET ID
