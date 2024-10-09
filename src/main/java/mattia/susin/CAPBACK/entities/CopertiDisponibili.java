@@ -24,9 +24,9 @@ public class CopertiDisponibili {
     private LocalDate data;
     private int copertiDisponibili;
 
-    @ManyToOne
+   /* @ManyToOne
     @JoinColumn
-    private Prenotazione prenotazione;
+    private Prenotazione prenotazione;*/
 
     // COSTRUTTORI
 

@@ -46,9 +46,9 @@ public class Prenotazione implements UserDetails {
     @Column(name = "orario")
     private double orario;
 
-    @OneToMany(mappedBy = "prenotazione", cascade = CascadeType.ALL)
+    /*@OneToMany(cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<CopertiDisponibili> copertiDisponibiliList;
+    private List<CopertiDisponibili> copertiDisponibiliList;*/
 
 
 
