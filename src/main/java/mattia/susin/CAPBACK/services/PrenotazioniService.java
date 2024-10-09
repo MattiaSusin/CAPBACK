@@ -73,7 +73,7 @@ public class PrenotazioniService {
                 body.telefono(), body.data(), body.numeroCoperti(), body.orario()
         );
 
-        // Recuperiamo o creiamo i posti disponibili per una data specifica
+        // 2.1 --> CREIAMO I POSTI DISPONIBLI
         CopertiDisponibili copertiDisponibili = copertiDisponibiliRepository
                 .findByData(body.data())
                 .orElseGet(() -> {
@@ -84,22 +84,22 @@ public class PrenotazioniService {
                     return newCoperti;
                 });
 
-        // Controlla se ci sono abbastanza coperti disponibili
+        // 2.2 --> CONTROLLIAMO SE I COPERTI SONO SUFFICENTI
         if (copertiDisponibili.getCopertiDisponibili() < body.numeroCoperti()) {
             throw new BadRequestException("Coperti non sufficienti per il giorno selezionato.");
         }
 
-        // Scala i coperti disponibili
+        // 2.3 --> SCALIAMO I COPERTI DISPONIBILI
         copertiDisponibili.scalaCoperti(body.numeroCoperti());
 
-        // Salva i posti disponibili e la prenotazione
+        // 2.4 --> SALVIAMO I POSTI
         copertiDisponibiliRepository.save(copertiDisponibili);
         Prenotazione savedPrenotazione = this.prenotazioneRepository.save(newPrenotazione);
 
-        // Invia la mail di conferma
+        // 2.5 --> INVIAMO LA MAIL DI CONFERMA DELLA PRENOTAZIONE
         mailgunSender.sendRegistrationEmailPrenotazione(savedPrenotazione);
 
-        return savedPrenotazione; // Restituisce la prenotazione salvata
+        return savedPrenotazione;
     }
 
     // 3 --> GET ID

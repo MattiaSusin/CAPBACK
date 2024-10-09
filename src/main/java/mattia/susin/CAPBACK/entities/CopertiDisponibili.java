@@ -5,7 +5,6 @@ import lombok.*;
 import mattia.susin.CAPBACK.exceptions.BadRequestException;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.UUID;
 
 
@@ -24,11 +23,13 @@ public class CopertiDisponibili {
     private UUID id;
 
     private LocalDate data;
-    private int copertiDisponibili; // Solo un campo per il totale
+    private int copertiDisponibili;
 
     @ManyToOne
-    @JoinColumn(name = "prenotazione_id")
+    @JoinColumn(name = "prenotazione_id", nullable = false)
     private Prenotazione prenotazione;
+
+    // COSTRUTTORI
 
     public CopertiDisponibili(UUID id, LocalDate data, int copertiDisponibili) {
         this.id = id;
@@ -36,11 +37,12 @@ public class CopertiDisponibili {
         this.copertiDisponibili = copertiDisponibili;
     }
 
+    // METODI
+
     public void setCopertiDisponibili(int copertiDisponibili) {
         this.copertiDisponibili = copertiDisponibili;
     }
 
-    // Metodo per scalare i coperti
     public void scalaCoperti(int numeroCoperti) {
         if (this.copertiDisponibili >= numeroCoperti) {
             this.copertiDisponibili -= numeroCoperti;
@@ -49,7 +51,7 @@ public class CopertiDisponibili {
         }
     }
 
-    // Metodo per azzerare i coperti
+
     public void azzeraCoperti() {
         this.copertiDisponibili = 120; // o il numero massimo desiderato
     }

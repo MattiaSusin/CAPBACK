@@ -46,7 +46,7 @@ public class Prenotazione implements UserDetails {
     @Column(name = "orario")
     private double orario;
 
-    @OneToMany(mappedBy = "prenotazione")
+    @OneToMany(mappedBy = "prenotazione", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<CopertiDisponibili> copertiDisponibiliList;
 
@@ -66,7 +66,8 @@ public class Prenotazione implements UserDetails {
     }
 
 
-
+    // METODI
+    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
