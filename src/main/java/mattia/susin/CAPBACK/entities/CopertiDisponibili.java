@@ -15,7 +15,6 @@ import java.util.UUID;
 @ToString
 @NoArgsConstructor
 public class CopertiDisponibili {
-    // Getter e Setter
     @Id
     @GeneratedValue
     @Setter(AccessLevel.NONE)
@@ -26,7 +25,7 @@ public class CopertiDisponibili {
     private int copertiDisponibili;
 
     @ManyToOne
-    @JoinColumn(name = "prenotazione_id", nullable = false)
+    @JoinColumn
     private Prenotazione prenotazione;
 
     // COSTRUTTORI
@@ -53,6 +52,7 @@ public class CopertiDisponibili {
 
 
     public void azzeraCoperti() {
-        this.copertiDisponibili = 120; // o il numero massimo desiderato
+        this.copertiDisponibili = 120;
     }
+
 }

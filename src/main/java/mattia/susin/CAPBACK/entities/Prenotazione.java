@@ -53,6 +53,7 @@ public class Prenotazione implements UserDetails {
 
 
     // COSTUTTORI
+
     public Prenotazione(String nome, String cognome, String email, String telefono, LocalDate data, int numeroCoperti, String orario) {
         this.nome = nome;
         this.cognome = cognome;
