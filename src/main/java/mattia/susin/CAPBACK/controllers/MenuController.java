@@ -1,5 +1,6 @@
 package mattia.susin.CAPBACK.controllers;
 
+import jakarta.annotation.security.PermitAll;
 import mattia.susin.CAPBACK.entities.Menu;
 import mattia.susin.CAPBACK.exceptions.BadRequestException;
 import mattia.susin.CAPBACK.payloads.menu.MenuDTO;
@@ -30,8 +31,7 @@ public class MenuController {
     // METODI
 
     // 1 --> GET ALL
-
-    @GetMapping
+    @GetMapping("/view/food")
     public Page<Menu> findAllMenu(@RequestParam(defaultValue = "0") int page,
                                   @RequestParam(defaultValue = "10") int size,
                                   @RequestParam(defaultValue = "id") String sortBy) {
