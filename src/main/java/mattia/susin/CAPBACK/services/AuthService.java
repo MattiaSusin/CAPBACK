@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthServices {
+public class AuthService {
 
     // IMPORTI
 
@@ -26,8 +26,9 @@ public class AuthServices {
     @Autowired
     private PrenotazioniService prenotazioniService;
 
-    // Controllo per dove si rompe il codice
-    public AuthServices() {
+    // Controllo per vedere dove si rompe il codice
+
+    public AuthService() {
         System.out.println("AuthServices bean creato correttamente");
     }
 
@@ -35,6 +36,7 @@ public class AuthServices {
     // METODI
 
     // ADMIN
+
     public String checkCredentialsAndGenerateToken(AdminLoginDTO body) {
         // 1. Controllo le credenziali
         // 1.1 Cerco nel db tramite email se esiste l'utente

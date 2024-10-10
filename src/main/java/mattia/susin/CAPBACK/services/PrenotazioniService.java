@@ -134,7 +134,6 @@ public class PrenotazioniService {
 
 
     // 7 --> EMAIL
-
     public Prenotazione findByEmail(String email) {
         return prenotazioneRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("L'utente con l'email " + email + " non è stato trovato!"));
     }

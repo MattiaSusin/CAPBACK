@@ -40,8 +40,6 @@ public class DrinksService {
 
     public Drink savedDrink(DrinkDTO body){
 
-        // 2 --> Se va tutto bene aggiungo i campi 'server-generated' ovvero l'avatarUrl
-
         TipoDrink tipoDrink = TipoDrink.valueOf(body.tipoDrink());
         Drink newDrink = new Drink(body.titolo(),body.descrizione(),body.prezzo(),body.tipoDrink(),body.immagine());
 

@@ -31,12 +31,13 @@ public class MenuController {
 
     // 1 --> GET ALL
 
-    @GetMapping
+    @GetMapping("view/food")
     public Page<Menu> findAllMenu(@RequestParam(defaultValue = "0") int page,
                                   @RequestParam(defaultValue = "10") int size,
                                   @RequestParam(defaultValue = "id") String sortBy) {
         return this.menuService.findAllMenu(page, size, sortBy);
     }
+
 
     // 2 --> POST
 
@@ -55,6 +56,7 @@ public class MenuController {
             return new MenuRespDTO(this.menuService.savedMenu(body).getId());
         }
     }
+
 
     // 3 --> GET ID
 

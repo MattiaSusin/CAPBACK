@@ -8,7 +8,7 @@ import mattia.susin.CAPBACK.payloads.admin.AdminRespDTO;
 import mattia.susin.CAPBACK.payloads.prenotazione.PrenotazioneDTO;
 import mattia.susin.CAPBACK.payloads.prenotazione.PrenotazioneRespDTO;
 import mattia.susin.CAPBACK.services.AdminsService;
-import mattia.susin.CAPBACK.services.AuthServices;
+import mattia.susin.CAPBACK.services.AuthService;
 import mattia.susin.CAPBACK.services.PrenotazioniService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +27,7 @@ public class AuthControllers {
     @Autowired
     private AdminsService adminsService;
     @Autowired
-    private AuthServices authServices;
+    private AuthService authService;
     @Autowired
     private PrenotazioniService prenotazioniService;
 
@@ -37,7 +37,7 @@ public class AuthControllers {
 
     @PostMapping("/login")
     public AdminLoginRespDTO login(@RequestBody AdminLoginDTO loginDTO) {
-        return new AdminLoginRespDTO(this.authServices.checkCredentialsAndGenerateToken(loginDTO));
+        return new AdminLoginRespDTO(this.authService.checkCredentialsAndGenerateToken(loginDTO));
     }
 
     // 2 --> SAVE/REGISTER --> ADMIN
